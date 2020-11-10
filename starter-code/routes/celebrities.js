@@ -69,6 +69,31 @@ router.post('/celebrities/:id/delete', (req,res,next) => {
     });
 });
 
+//Editing Celebrities
 
+router.get('/celebrities/:id/edit', (req,res,next) => {
+    let celebrityId = req.params.id;
+    Celebrity.findById(celebrityId)
+    .then((theCelebrityFound) => {
+        res.render('celebrities/edit', {celebrities:theCelebrityFound});
+    })
+    .catch((next) =>{
+        console.log(`Houston we have a problem: ${next}`);
+    });
+});
+
+router.post('/celebrities/:id/edit', (req,res,next) => {
+    let celebrityId = req.params.id;
+    let {name, occupation, catchPhrase} = req.body;
+    Celebrity.findByIdAndUpdate(celebrityId, {
+        name,
+        occupation,
+        catchPhrase
+    }).then(() => {
+        res.redirect('/celebrities');
+    }).catch((next) => {
+        console.log(`Houston we have a problem: ${next}`);
+    });
+});
 
 module.exports = router;
