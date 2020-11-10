@@ -1,0 +1,11 @@
+<h2>Our MongoDB Celebrities</h2>
+<a href="/celebrities/new">Create a Celebrity</a>
+<hr>
+{{#each celebrities}}
+<div class="celebrities-list">
+    <p><a href='/celebrities/{{_id}}'>{{name}}</a></p>
+    <form action="/celebrities/{{_id}}/delete" method="POST">
+        <button type="submit">Delete</button>
+    </form>
+</div>
+{{/each}}
