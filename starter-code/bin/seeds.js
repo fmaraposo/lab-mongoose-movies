@@ -52,3 +52,9 @@ Celebrity.create(celebrities)
         }
     ];
 
+Movie.create(movies)
+    .then(moviesFromDB => {
+        console.log(`Created ${moviesFromDB.length} movies`);
+        mongoose.connection.close();
+    })
+    .catch(err => console.log(`An error ocurred while creating celebreties: ${err}`)); 
