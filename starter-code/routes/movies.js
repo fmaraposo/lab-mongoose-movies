@@ -14,25 +14,13 @@ router.get('/movies', (req,res) => {
     });
 });
 
-router.get('/movies/:id', (req,res,next) => {
-    let movieId = req.params.id;
-    Movie.findById(movieId)
-    .then((theMovieFound) => {
-        console.log(`We're going to check the details of: ${theMovieFound}`);
-        res.render('movies/show', {movie: theMovieFound});
-    })
-    .catch((next) => {
-        console.log(`Houston we have a problem: ${next}`);
-    });
-});
-
 //Create new movies
 
-router.get('/movies/create', (req,res,next) => { 
+router.get('/movies/new', (req,res,next) => { 
     res.render('movies/new');
 });
 
-router.post('/movies/create',(req,res,next) => {
+router.post('/movies/new',(req,res,next) => {
     let {title, genre, plot} = req.body;
     console.log(req.body);
     Movie.create({
@@ -45,10 +33,36 @@ router.post('/movies/create',(req,res,next) => {
         res.redirect('/movies');
     })
     .catch((next) => {
-        console.log(`Houston we have a problem: ${next}`);
+        console.log(`Houston2 we have a problem: ${next}`);
         res.render('movies/new');
     });
 });
 
+router.get('/movies/:id', (req,res,next) => {
+    let movieId = req.params.id;
+    Movie.findById(movieId)
+    .then((theMovieFound) => {
+        console.log(`We're going to check the details of: ${theMovieFound}`);
+        res.render('movies/show', {movie: theMovieFound});
+    })
+    .catch((next) => {
+        console.log(`Houston3 we have a problem: ${next}`);
+    });
+});
+
+// Delete Movies
+router.post('/movies/:id/delete', (req,res,next) => {
+    let movieId = req.params.id;
+    let {title, genre, plot} = req.body;
+    console.log(req.body);
+    Movie.findByIdAndDelete(movieId)
+    .then((response) => {
+        console.log(`${response.name} was deleted`);
+        res.redirect('/movies');
+    })
+    .catch((next) => {
+        console.log(`Houston we have a problem: ${next}`);
+    });
+});
 
 module.exports = router;
